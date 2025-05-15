@@ -1,4 +1,4 @@
-import { IsEmail, IsInt, IsNotEmpty, IsString, Matches } from 'class-validator';
+import { IsEmail, IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -9,13 +9,13 @@ export class CreateUserDto {
   readonly email: string;
   @IsNotEmpty()
   @IsString()
-  @Matches(
-    /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/,
-    {
-      message:
-        'Password must be at least 8 characters long, include one uppercase letter, one number, and one special character.',
-    },
-  )
+  // @Matches(
+  //   /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/,
+  //   {
+  //     message:
+  //       'Password must be at least 8 characters long, include one uppercase letter, one number, and one special character.',
+  //   },
+  // )
   readonly password: string;
   @IsInt()
   readonly age: number;
