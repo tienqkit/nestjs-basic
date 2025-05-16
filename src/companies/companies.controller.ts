@@ -8,7 +8,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { Public, User } from 'src/decorator/customize';
+import { Public, ResponseMessage, User } from 'src/decorator/customize';
 import { IUser } from 'src/interface/user.interface';
 import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
@@ -23,6 +23,7 @@ export class CompaniesController {
     return this.companiesService.create(createCompanyDto, user);
   }
   @Public()
+  @ResponseMessage('Get list company with all field')
   @Get()
   findAll(
     @Query('page') currentPage: string,

@@ -4,6 +4,7 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { ValidationError } from 'class-validator';
 import { AppModule } from './app.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { TransformInterceptor } from './core/interceptor/transform.interceptor';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
@@ -28,6 +29,7 @@ async function bootstrap() {
     preflightContinue: false,
     optionsSuccessStatus: 204,
   });
+  app.useGlobalInterceptors(new TransformInterceptor(reflector));
   await app.listen(port);
 }
 bootstrap();

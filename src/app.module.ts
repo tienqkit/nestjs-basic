@@ -5,8 +5,8 @@ import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
 import { CompaniesModule } from './companies/companies.module';
+import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     MongooseModule.forRootAsync({
@@ -28,12 +28,6 @@ import { CompaniesModule } from './companies/companies.module';
     CompaniesModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: JwtAuthGuard,
-    // },
-  ],
+  providers: [AppService],
 })
 export class AppModule {}
