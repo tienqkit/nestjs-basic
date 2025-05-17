@@ -1,4 +1,8 @@
-import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import {
+  BadRequestException,
+  ValidationPipe,
+  VersioningType,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { ValidationError } from 'class-validator';
@@ -30,6 +34,12 @@ async function bootstrap() {
     optionsSuccessStatus: 204,
   });
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
+  // config versioning
+  app.setGlobalPrefix('api');
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: ['1', '2'],
+  });
   await app.listen(port);
 }
 bootstrap();
