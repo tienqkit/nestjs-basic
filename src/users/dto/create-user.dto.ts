@@ -75,9 +75,13 @@ export class RegisterUserDto {
   @IsNotEmpty({ message: 'Gender is required' })
   readonly gender: string;
 
-  @IsNotEmpty({ message: 'role is required' })
-  readonly role: string;
+  // @IsNotEmpty({ message: 'role is required' })
+  // @IsString()
+  // readonly role: string;
 
-  @IsNotEmpty({ message: 'Company is required' })
-  readonly company: string;
+  // @IsNotEmptyObject()
+  // @IsObject()
+  // @ValidateNested()
+  // @Type(() => Company)
+  // company!: Company;
 }

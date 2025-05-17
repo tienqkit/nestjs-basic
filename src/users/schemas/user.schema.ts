@@ -24,7 +24,7 @@ export class User {
 
   @Prop({ type: Object })
   company: {
-    id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Schema.Types.ObjectId;
     name: string;
   };
 
@@ -44,14 +44,15 @@ export class User {
   };
 
   @Prop()
-  createAt: Date;
+  createdAt: Date;
 
   @Prop()
-  updateAt: Date;
+  updatedAt: Date;
   @Prop()
   isDeleted: boolean;
   @Prop()
   deletedAt: Date;
+  _id: any;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

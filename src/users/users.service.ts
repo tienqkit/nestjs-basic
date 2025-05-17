@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import mongoose from 'mongoose';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, RegisterUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
 @Injectable()
@@ -22,6 +22,12 @@ export class UsersService {
     const createdUser = new this.userModel(createUserDto);
     createdUser.password = this.hashPassword(createdUser.password);
     return createdUser.save();
+  }
+  async register(registerUserDto: RegisterUserDto): Promise<User> {
+    const registeredUser = new this.userModel(registerUserDto);
+    registeredUser.password = this.hashPassword(registeredUser.password);
+    registeredUser.role = 'USER';
+    return registeredUser.save();
   }
 
   findAll() {
