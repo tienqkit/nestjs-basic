@@ -46,6 +46,11 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'Gender is required' })
   readonly gender: string;
 
+  @IsNotEmpty({ message: 'Role is required' })
+  @IsString()
+  readonly role: string;
+
+  @IsNotEmpty({ message: 'Company is required' })
   @IsNotEmptyObject()
   @IsObject()
   @ValidateNested()

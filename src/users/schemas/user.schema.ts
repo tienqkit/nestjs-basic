@@ -32,11 +32,16 @@ export class User {
   role: string;
 
   @Prop({ type: Object })
-  updatedBy: {
+  createdBy: {
     _id: mongoose.Schema.Types.ObjectId;
     email: string;
   };
 
+  @Prop({ type: Object })
+  updatedBy: {
+    _id: mongoose.Schema.Types.ObjectId;
+    email: string;
+  };
   @Prop({ type: Object })
   deletedBy: {
     _id: mongoose.Schema.Types.ObjectId;
