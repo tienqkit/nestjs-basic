@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { IUser } from 'src/interface/user.interface';
 import { RegisterUserDto } from 'src/users/dto/create-user.dto';
@@ -9,6 +10,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
 
   async validateUser(username: string, password: string): Promise<any> {
@@ -34,8 +36,11 @@ export class AuthService {
       email,
       role,
     };
+    const refetch_token = this.createRefetchToken(payload);
+
     return {
       access_token: this.jwtService.sign(payload),
+      refetch_token,
       _id,
       name,
       email,
@@ -49,4 +54,11 @@ export class AuthService {
       createdAt: newUser?.createdAt,
     };
   }
+  createRefetchToken = (payload: any) => {
+    const refresh_token = this.jwtService.sign(payload, {
+      secret: this.configService.get<string>('JWT_REFRESH_TOKEN_SECRET'),
+      expiresIn: this.configService.get<string>('JWT_REFRESH_TOKEN_EXPIRES'),
+    });
+    return refresh_token;
+  };
 }
