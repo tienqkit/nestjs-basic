@@ -6,6 +6,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { ValidationError } from 'class-validator';
+import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { TransformInterceptor } from './core/interceptor/transform.interceptor';
@@ -40,6 +41,8 @@ async function bootstrap() {
     type: VersioningType.URI,
     defaultVersion: ['1', '2'],
   });
+  // config cookie parser
+  app.use(cookieParser());
   await app.listen(port);
 }
 bootstrap();
