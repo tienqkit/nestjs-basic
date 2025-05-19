@@ -131,4 +131,8 @@ export class UsersService {
       { refresh_token: refetch_token },
     );
   };
+
+  findUserByToken = async (refresh_token: string) => {
+    return await this.userModel.findOne({ refresh_token });
+  };
 }

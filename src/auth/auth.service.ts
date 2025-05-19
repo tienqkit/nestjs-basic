@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
@@ -68,4 +68,43 @@ export class AuthService {
     });
     return refresh_token;
   };
+  async processRefreshToken(refresh_token: string, response: Response) {
+    try {
+      this.jwtService.verify(refresh_token, {
+        secret: this.configService.get<string>('JWT_REFRESH_TOKEN_SECRET'),
+      });
+      const user = await this.usersService.findUserByToken(refresh_token);
+      if (!user) {
+        throw new BadRequestException(`Invalid refresh token`);
+      }
+      const { _id, name, email, role } = user;
+      const payload = {
+        sub: 'token_refresh',
+        iss: 'from server',
+        _id,
+        name,
+        email,
+        role,
+      };
+      const refetch_token = this.createRefetchToken(payload);
+      await this.usersService.updateUserToken(refetch_token, String(_id));
+      // set cookie
+      response.clearCookie('refresh_token');
+      response.cookie('refresh_token', refetch_token, {
+        maxAge: 1000 * 60 * 60 * 24 * 30,
+        httpOnly: true,
+      });
+
+      return {
+        access_token: this.jwtService.sign(payload),
+        refetch_token,
+        _id,
+        name,
+        email,
+        role,
+      };
+    } catch (error) {
+      throw new BadRequestException(`Invalid refresh token ${error}`);
+    }
+  }
 }
