@@ -47,11 +47,12 @@ export class AuthService {
 
     return {
       access_token: this.jwtService.sign(payload),
-      refetch_token,
-      _id,
-      name,
-      email,
-      role,
+      user: {
+        _id,
+        name,
+        email,
+        role,
+      },
     };
   }
   async register(user: RegisterUserDto) {
@@ -97,11 +98,12 @@ export class AuthService {
 
       return {
         access_token: this.jwtService.sign(payload),
-        refetch_token,
-        _id,
-        name,
-        email,
-        role,
+        user: {
+          _id,
+          name,
+          email,
+          role,
+        },
       };
     } catch (error) {
       throw new BadRequestException(`Invalid refresh token ${error}`);
