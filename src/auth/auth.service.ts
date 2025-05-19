@@ -92,7 +92,7 @@ export class AuthService {
       // set cookie
       response.clearCookie('refresh_token');
       response.cookie('refresh_token', refetch_token, {
-        maxAge: 1000 * 60 * 60 * 24 * 30,
+        maxAge: 1000 * 60 * 60 * 24 * 1,
         httpOnly: true,
       });
 
@@ -108,5 +108,13 @@ export class AuthService {
     } catch (error) {
       throw new BadRequestException(`Invalid refresh token ${error}`);
     }
+  }
+
+  async logout(response: Response, user: IUser) {
+    await this.usersService.updateUserToken('', user._id);
+    response.clearCookie('refresh_token');
+    return {
+      message: 'Logout success',
+    };
   }
 }
