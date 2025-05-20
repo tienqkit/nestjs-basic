@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { CompaniesModule } from './companies/companies.module';
 import { UsersModule } from './users/users.module';
 import { JobModule } from './job/job.module';
+import { FilesModule } from './files/files.module';
 @Module({
   imports: [
     MongooseModule.forRootAsync({
@@ -28,6 +29,7 @@ import { JobModule } from './job/job.module';
     AuthModule,
     CompaniesModule,
     JobModule,
+    FilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
